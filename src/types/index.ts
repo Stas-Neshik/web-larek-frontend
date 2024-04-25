@@ -1,8 +1,6 @@
 export interface IProductList {
-  total: number;
+  total : number;
   items : IItem[];
-  preview: string | null;
-  getItem(ItemId:string): void;
 }
 
 
@@ -11,13 +9,10 @@ export interface IItem {
   product : string;
   description : string;
   image : string;
-  title : string
+  title : string;
   _id : string;
   price : number;
 }
-:HTMLTemplateElement
-:HTMLElement
-:HTMLFormElement
 
 export interface IBusket {
   total: number;
@@ -27,6 +22,10 @@ export interface IBusket {
   phone: string;
   address: string;
   checkValidation(data: string):boolean;
+}
+
+export interface CardActions {
+	onClick: (event: MouseEvent) => void;
 }
 
 export type TItems = Pick<IProductList, 'items'>;
