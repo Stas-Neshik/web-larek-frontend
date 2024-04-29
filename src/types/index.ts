@@ -1,4 +1,18 @@
-export interface IProductList {
+
+
+export interface IAppData {
+  catalog: IItem[],
+  basket: string[],
+  order: IOrder
+}
+
+export interface IOrder {
+  total: number,
+  items: string[],
+}
+
+
+export interface IProductList<Type> {
   total : number;
   items : IItem[];
 }
@@ -11,27 +25,34 @@ export interface IItem {
   image : string;
   title : string;
   _id : string;
-  price : number;
+  price : number | null;
 }
 
-export interface IBusket {
-  total: number;
-  items : TItems[];
-  payment: string;
-  email: string;
-  phone: string;
-  address: string;
-  checkValidation(data: string):boolean;
+
+export interface IOrderTotal {
+	payment: string;
+	email?: string;
+	phone?: string;
+	address: string;
 }
+
+export interface IOrder extends IOrderTotal {
+	items: string[];
+	total: number;
+}
+
+export interface IOrderres extends IOrderTotal {
+	items: string[];
+	total: number;
+}
+
+
 
 export interface CardActions {
 	onClick: (event: MouseEvent) => void;
 }
 
-export type TItems = Pick<IProductList, 'items'>;
 export type TCardInfoModal = Pick<IItem, 'image' | 'description' | 'category' | 'product' | 'price'>;
-export type TAdessModal = Pick<IBusket, 'address'>;
-export type TContactsModal = Pick<IBusket, 'email' | 'phone'>;
 
 
 

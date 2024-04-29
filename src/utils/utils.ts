@@ -14,7 +14,6 @@ export type SelectorCollection<T> = string | NodeListOf<Element> | T[];
 
 export function ensureAllElements<T extends HTMLElement>(selectorElement: SelectorCollection<T>, context: HTMLElement = document as unknown as HTMLElement): T[] {
     if (isSelector(selectorElement)) {
-        console.log(Array.from(context.querySelectorAll(selectorElement)) as T[]);
         return Array.from(context.querySelectorAll(selectorElement)) as T[];
     }
     if (selectorElement instanceof NodeList) {
