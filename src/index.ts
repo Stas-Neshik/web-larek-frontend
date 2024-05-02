@@ -75,7 +75,7 @@ events.on('items:changed', () => {
 // Первое модальное окно с информацией о карточке.
 events.on('card:select', (item: IItem) => {
 	const card = new CardPreview(cloneTemplate(cardPreviewTemplate), {
-		onClick: () => events.emit('card:add', item),
+		onClick: () => events.emit('addInBasket', item),
 	});
 	modal.render({
 		content: card.render({
@@ -87,6 +87,7 @@ events.on('card:select', (item: IItem) => {
 		}),
 	});
 
+
 	// Проверка на есть ли товар в корзине, есть ли цена.
 	if (item.price === null) {
 		card.setDisabled(card.buttonElement, true);
@@ -97,29 +98,29 @@ events.on('card:select', (item: IItem) => {
 	}
 });
 
-// Добавление товара в корзину, счетчик товаров в корзине. 
-events.on('card:add', (item: IItem) => {
+
+
+
+// Добавление товара в корзину. 
+events.on('addInBasket', (item: IItem) => {
 	appData.addItemOrder(item);
 	appData.addToBusket(item);
-	page.counter = appData.basket.length;
 	modal.close();
 });
 // Первое модальное окно с информацией о карточке.
 
-// открытие корзины
-events.on('basket:open', () => {
-	basket.total = appData.getTotalPrice();
-console.log(basket.total) // сюда не приходит 
 
-	
+
+
+
+events.on('basket:change', (item: IItem) => {
+	console.log('basket:change');
+	basket.total = appData.getTotalPrice();
 	basket.setDisabled(basket.button, appData.isBasketEmpty);
 	let i = 1;
-
-
+	page.counter = appData.basket.length;
 
 	basket.items = appData.basket.map((item) => {
-		console.log(item.price)
-		
 		const card = new BusketItem(cloneTemplate(cardBasketTemplate), {
 			onClick: () => events.emit('card:remove', item),
 		});
@@ -132,8 +133,17 @@ console.log(basket.total) // сюда не приходит
 	modal.render({
 		content: basket.render(),
 	});
+})
+
+
+// открытие корзины
+events.on('basket:open', () => {
+	modal.render({
+		content: basket.render(),
+	});
 });
 // открытие корзины
+
 
 // удаление товара из корзины
 events.on('card:remove', (item: IItem) => {
@@ -142,24 +152,23 @@ events.on('card:remove', (item: IItem) => {
 	page.counter = appData.basket.length;
 	basket.setDisabled(basket.button, appData.isBasketEmpty);
 	basket.total = appData.getTotalPrice();
-	let i = 1;
 
-
-	basket.items = appData.basket.map((item) => {
-		const card = new BusketItem(cloneTemplate(cardBasketTemplate), {
-			onClick: () => events.emit('card:remove', item),
-		});
-		return card.render({
-			title: item.title,
-			price: item.price,
-			index: i++,
-		});
-	});
-	modal.render({
-		content: basket.render(),
-	});
 });
 // удаление товара из корзины
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // Рендер оформление заказа

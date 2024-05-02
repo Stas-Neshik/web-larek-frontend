@@ -37,6 +37,8 @@ export class AppData extends Model<IAppData>{
 
 	addToBusket(item: IProduct) {
 		this.basket.push(item);
+
+		this.events.emit('basket:change');
 	}
 
 	removeInBusket(item: IProduct) {
@@ -44,6 +46,9 @@ export class AppData extends Model<IAppData>{
 		if (index >= 0) {
 			this.basket.splice(index, 1);
 		}
+		this.events.emit('deleteFromBasket');
+		this.events.emit('basket:change');
+	
 	}
 
 	clearBasket() {
